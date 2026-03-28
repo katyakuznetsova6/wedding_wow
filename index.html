@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Свадебное приглашение Алексея и Екатерины — 25 августа 2026, Челябинск. Подтверждение участия, таймер, локация и контакты.">
+<meta property="og:title" content="Алексей и Екатерина — свадебное приглашение">
+<meta property="og:description" content="25 августа 2026 · Досуговый центр «Пегас». Откройте приглашение и подтвердите участие.">
+<meta property="og:type" content="website">
+<title>Алексей и Екатерина — приглашение</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div id="welcomeGate" class="welcome-gate" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle" aria-describedby="welcomeDesc">
+  <div class="welcome-card">
+    <p class="welcome-kicker">Вы получили приглашение</p>
+    <h2 id="welcomeTitle">Добро пожаловать</h2>
+    <p id="welcomeDesc" class="welcome-text">Здесь — дата, место, тайминг и форма ответа. Листайте вниз после входа или нажмите на стрелку у первого экрана.</p>
+    <div class="welcome-actions">
+      <button type="button" class="welcome-btn welcome-btn-primary" id="welcomeOpen">Открыть приглашение</button>
+      <button type="button" class="welcome-btn welcome-btn-ghost" id="welcomeQuiet">Без фоновой музыки</button>
+    </div>
+  </div>
+</div>
+
+<div class="cursor" aria-hidden="true"></div>
+<div class="bg" aria-hidden="true"></div>
+<div class="overlay" aria-hidden="true"></div>
+
+<section class="hero" style="--scene-bg:url('assets/images/hero-1.png')">
+  <div class="hero-media" aria-hidden="true">
+    <img class="hero-img" src="assets/images/hero-1.png" alt="">
+    <img class="hero-img" src="assets/images/hero-2.png" alt="">
+    <img class="hero-img" src="assets/images/hero-3.png" alt="">
+  </div>
+  <h1 id="cinematicText"></h1>
+  <button type="button" class="scroll-hint" id="scrollHint" aria-label="Перейти к следующему блоку">↓</button>
+</section>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8f7c9b5d1.mp3" type="audio/mpeg">
+</audio>
+
+<button type="button" class="music-fab" id="musicFab" aria-pressed="false" aria-label="Включить или выключить музыку" title="Музыка">♪</button>
+
+<section class="scene" style="--scene-bg:url('assets/images/scene-countdown.png')">
+  <h2>25 августа 2026</h2>
+  <div id="timer"></div>
+  <p class="sub">Сбор гостей в 16:00. Будем рады встречать вас с улыбками.</p>
+</section>
+
+<section class="scene" style="--scene-bg:url('assets/images/scene-location.png')">
+  <h2>Локация</h2>
+  <p class="sub">Досуговый центр «Пегас»</p>
+  <p class="sub">Челябинск, улица Блюхера, 56</p>
+  <p class="sub">Если вы чуть задержитесь — просто напишите или позвоните нам.</p>
+  <a class="btn-link" href="https://go.yandex/?destination=%D0%A7%D0%B5%D0%BB%D1%8F%D0%B1%D0%B8%D0%BD%D1%81%D0%BA%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%91%D0%BB%D1%8E%D1%85%D0%B5%D1%80%D0%B0%2C%2056" target="_blank" rel="noopener noreferrer">Вызвать такси</a>
+</section>
+
+<section class="scene" style="--scene-bg:url('assets/images/scene-timeline.png')">
+  <h2>Как пройдет наш день</h2>
+  <p class="sub">Каждый блок — маленькое сердце, наполненное теплом и нежностью</p>
+  <div class="timeline timeline-cards">
+    <div class="timeline-card"><div class="time-chip">16:00</div><strong>Сбор гостей</strong><p>Теплые объятия, знакомые голоса и первые добрые улыбки</p></div>
+    <div class="timeline-card"><div class="time-chip">16:30</div><strong>Церемония</strong><p>Клятвы, дрожь в руках и долгожданное «да»</p></div>
+    <div class="timeline-card"><div class="time-chip">18:00</div><strong>Банкет</strong><p>Ужин, тосты и моменты, которые хочется хранить в памяти</p></div>
+    <div class="timeline-card"><div class="time-chip">21:00</div><strong>Танцы</strong><p>Музыка, смех и вечер, который не хочется заканчивать</p></div>
+  </div>
+</section>
+
+<section class="scene" style="--scene-bg:url('assets/images/scene-dress.png')">
+  <h2>Дресс-код</h2>
+  <p class="sub">Пусть ваш образ будет праздничным, нежным и гармоничным с нашей палитрой</p>
+  <h3>Цветовая гамма</h3>
+  <p class="sub">Основные оттенки нашего вечера</p>
+  <div class="palette">
+    <div class="swatch"><span style="background:#f2e7dc"></span> Кремовый</div>
+    <div class="swatch"><span style="background:#c9b29b"></span> Песочный</div>
+    <div class="swatch"><span style="background:#8f7964"></span> Кофейный</div>
+  </div>
+  <h3>Женские образы</h3>
+  <div class="slider-wrap">
+    <button class="slider-btn" type="button" data-target="womenSlider" data-dir="-1" aria-label="Предыдущий женский образ">◀</button>
+    <div class="slider image-slider" id="womenSlider">
+      <article class="card image-card"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Женский образ в вечернем платье" loading="lazy"><p>Платье мечты</p></article>
+      <article class="card image-card"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" alt="Женский минималистичный образ" loading="lazy"><p>Минимализм с теплом</p></article>
+      <article class="card image-card"><img src="https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=800&q=80" alt="Женский легкий праздничный образ" loading="lazy"><p>Нежный праздничный стиль</p></article>
+    </div>
+    <button class="slider-btn" type="button" data-target="womenSlider" data-dir="1" aria-label="Следующий женский образ">▶</button>
+  </div>
+  <h3>Мужские образы</h3>
+  <div class="slider-wrap">
+    <button class="slider-btn" type="button" data-target="menSlider" data-dir="-1" aria-label="Предыдущий мужской образ">◀</button>
+    <div class="slider image-slider" id="menSlider">
+      <article class="card image-card"><img src="https://images.unsplash.com/photo-1592878849122-5f7f8b90f8fb?auto=format&fit=crop&w=800&q=80" alt="Мужской классический образ" loading="lazy"><p>Классика, которая вдохновляет</p></article>
+      <article class="card image-card"><img src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=800&q=80" alt="Мужской smart casual образ" loading="lazy"><p>Уверенный smart casual</p></article>
+      <article class="card image-card"><img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=800&q=80" alt="Мужской легкий элегантный образ" loading="lazy"><p>Легкая элегантность</p></article>
+    </div>
+    <button class="slider-btn" type="button" data-target="menSlider" data-dir="1" aria-label="Следующий мужской образ">▶</button>
+  </div>
+</section>
+
+<section class="scene full-img" style="--scene-bg:url('assets/images/scene-full.png')">
+  <img src="assets/images/scene-full.png" alt="Романтическая свадебная фотография" loading="lazy">
+  <div class="full-img-overlay">
+    <p class="full-img-copy">Совсем скоро мы скажем друг другу «навсегда»</p>
+  </div>
+</section>
+
+<section class="scene rsvp" style="--scene-bg:url('assets/images/scene-rsvp.png')">
+  <h2>Подтвердите, будете ли вы с нами</h2>
+  <p class="sub">Нам важно знать, сможете ли вы разделить этот день рядом</p>
+  <form id="rsvpForm" novalidate>
+    <label for="nameInput" class="sr-only">Ваше имя</label>
+    <input id="nameInput" type="text" placeholder="Как к вам обращаться" required autocomplete="name">
+    <div class="rsvp-group">
+      <p>Вы будете на празднике?</p>
+      <label><input type="radio" name="attendance" value="yes" required> Да, с радостью приду</label>
+      <label><input type="radio" name="attendance" value="no"> К сожалению, не смогу приехать</label>
+    </div>
+    <div class="rsvp-group">
+      <p>Какие напитки вам ближе?</p>
+      <label><input type="checkbox" name="drink" value="Вино"> Вино</label>
+      <label><input type="checkbox" name="drink" value="Шампанское"> Шампанское</label>
+      <label><input type="checkbox" name="drink" value="Коктейли"> Коктейли</label>
+      <label><input type="checkbox" name="drink" value="Сок/вода"> Сок/вода</label>
+    </div>
+    <button id="sendBtn" type="submit">Отправить ответ</button>
+  </form>
+  <p id="status"></p>
+</section>
+
+<section class="scene contacts" style="--scene-bg:url('assets/images/scene-contacts.png')">
+  <h2>Контакты организатора</h2>
+  <p class="sub">Мы на связи с заботой: подскажем дорогу, ответим на вопросы и поможем, если что-то вдруг пойдет не так</p>
+  <div class="contact-actions">
+    <a class="icon-link" href="tel:+79000000000" aria-label="Позвонить в организатору">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1-.24c1.12.37 2.33.57 3.55.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.07 21 3 13.93 3 5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.22.2 2.43.57 3.55a1 1 0 0 1-.24 1l-2.2 2.2z" />
+      </svg>
+    </a>
+    <a class="icon-link" href="https://t.me/organizer_wedding" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram организатору">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21.5 4.6 2.9 11.7c-.9.35-.88 1.6.05 1.9l4.5 1.4 1.7 5.3c.28.86 1.43.97 1.85.19l2.7-5 5.3-4.2c.74-.59-.04-1.74-.85-1.45zM9.7 15.2l-.25-.8 8.2-7.1-7.95 7.9z"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<section class="scene final" style="--scene-bg:url('assets/images/scene-final.png')">
+  <h2>Ждем вас в наш самый важный день</h2>
+  <p>С любовью, Алексей и Екатерина</p>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>

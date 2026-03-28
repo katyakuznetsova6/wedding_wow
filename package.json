@@ -1,0 +1,10 @@
+{
+  "name": "wedding-wow-final",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Свадебное приглашение: лендинг с таймером, RSVP и контактами",
+  "scripts": {
+    "start": "npx --yes serve -l 5173 .",
+    "preview": "npx --yes serve -l 5173 ."
+  }
+}
