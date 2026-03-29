@@ -290,11 +290,15 @@ button,input,textarea{
  flex:1 1 0;
  min-width:0;
  scroll-padding-inline:0;
- /* явная ширина трека, иначе % у слайдов на десктопе иногда считаются неверно */
  width:100%;
+ /* gap + % ширины в Safari/WebKit дают просвет следующего кадра — ширину выставляет app.js */
+ gap:0;
+ column-gap:0;
+ padding-left:0;
+ padding-right:0;
 }
 
-/* Один слайд на всю видимую область трека (без «задева» следующего кадра) */
+/* Fallback до JS и после: проценты; точные px перезаписывает syncDressSliderTrackWidths */
 .scene-dress .slider.image-slider .image-card{
  flex:0 0 100%;
  width:100%;
@@ -949,6 +953,16 @@ body.welcome-active{
  color:#111;
 }
 
+#welcomeTitle{
+ font-size:32px;
+ letter-spacing:1px;
+ line-height:1.25;
+}
+
+#guestName{
+ display:inline-block;
+}
+
 .welcome-text{
  margin:0 0 28px;
  font-family:Montserrat, sans-serif;
@@ -1228,6 +1242,11 @@ body.final-active::after{
  .scroll-hint:hover{
   transform:translateX(-50%);
  }
+
+ .full-img-copy{
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+ }
 }
 
 @media (max-width:768px){
@@ -1313,12 +1332,34 @@ body.final-active::after{
   font-size:13px;
  }
 
- .full-img-copy{
-  font-size:22px;
+ .scene.full-img{
+  min-height:min(62dvh,540px);
  }
 
  .full-img img{
-  height:56vh;
+  height:min(52dvh,420px);
+  min-height:min(44dvh,340px);
+  max-height:65dvh;
+  object-position:center center;
+ }
+
+ .full-img-overlay{
+  padding:clamp(20px,5vw,32px);
+  background:linear-gradient(180deg, rgba(8,10,14,.35) 0%, rgba(8,10,14,.12) 38%, rgba(8,10,14,.45) 100%);
+  align-items:center;
+ }
+
+ .full-img-copy{
+  font-size:clamp(19px,5.4vw,24px);
+  line-height:1.45;
+  max-width:min(34ch,94vw);
+  padding:18px 20px;
+  background:rgba(10,12,16,.5);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:18px;
+  box-shadow:0 14px 48px rgba(0,0,0,.35);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
  }
 
  .scene-dress{
@@ -1350,6 +1391,12 @@ body.final-active::after{
   flex:0 0 88%;
   max-width:88%;
   scroll-snap-align:center;
+ }
+
+ .scene-dress .slider.image-slider{
+  gap:0;
+  padding-left:0;
+  padding-right:0;
  }
 
  .scene-dress .slider.image-slider .image-card{
@@ -1438,8 +1485,17 @@ body.final-active::after{
   font-size:30px;
  }
 
+ .scene.full-img{
+  min-height:min(58dvh,500px);
+ }
+
+ .full-img img{
+  min-height:min(40dvh,300px);
+ }
+
  .full-img-copy{
-  font-size:20px;
+  font-size:clamp(18px,5.2vw,22px);
+  padding:16px 18px;
  }
 
  .scene-dress .slider.image-slider .image-card{
@@ -1487,5 +1543,19 @@ body.final-active::after{
 
  .t-num{
   font-size:clamp(28px,7vw,38px);
+ }
+
+ .scene.full-img{
+  min-height:min(72dvh,400px);
+ }
+
+ .full-img img{
+  height:min(58dvh,340px);
+  min-height:min(48dvh,280px);
+ }
+
+ .full-img-copy{
+  padding:14px 16px;
+  font-size:clamp(17px,3.8vw,21px);
  }
 }

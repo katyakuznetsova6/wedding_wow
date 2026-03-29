@@ -73,6 +73,7 @@ function openInvitation(){
  const music=document.getElementById("music");
  const fab=document.getElementById("musicFab");
  syncMusicFab(music,fab);
+ syncDressSliderTrackWidths();
 }
 
 /** Вызов play() только из этого обработчика — в том же синхронном стеке, что и клик (Safari / iOS). */
@@ -92,6 +93,56 @@ function startMusicFromUserGesture(){
  }else{
   syncMusicFab(music,fab);
  }
+}
+
+function initWelcomePersonalization(){
+ const params=new URLSearchParams(window.location.search);
+ const name=params.get("name");
+ const guestEl=document.getElementById("guestName");
+ const textEl=document.getElementById("welcomeText");
+ if(!guestEl||!textEl) return;
+
+ let decoded="Дорогие гости";
+ if(name!=null&&String(name).trim()!==""){
+  const raw=String(name).trim();
+  try{
+   decoded=decodeURIComponent(raw.replace(/\+/g," "));
+  }catch{
+   decoded=raw;
+  }
+  if(!decoded) decoded="Дорогие гости";
+ }
+
+ guestEl.textContent=decoded;
+
+ if(prefersReducedMotion){
+  guestEl.style.opacity="1";
+  guestEl.style.transform="translateY(0)";
+  guestEl.style.filter="none";
+  textEl.style.opacity="1";
+  textEl.style.transform="translateY(0)";
+  return;
+ }
+
+ guestEl.style.opacity="0";
+ guestEl.style.transform="translateY(20px)";
+ guestEl.style.filter="blur(6px)";
+
+ textEl.style.opacity="0";
+ textEl.style.transform="translateY(20px)";
+
+ window.setTimeout(()=>{
+  guestEl.style.transition="opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease";
+  guestEl.style.opacity="1";
+  guestEl.style.transform="translateY(0)";
+  guestEl.style.filter="blur(0)";
+ },300);
+
+ window.setTimeout(()=>{
+  textEl.style.transition="opacity 0.8s ease, transform 0.8s ease";
+  textEl.style.opacity="1";
+  textEl.style.transform="translateY(0)";
+ },900);
 }
 
 function setupWelcome(){
@@ -132,6 +183,7 @@ function setupWelcome(){
 }
 
 initRevealStagger();
+initWelcomePersonalization();
 setupWelcome();
 
 document.getElementById("scrollHint")?.addEventListener("click",()=>{
@@ -180,6 +232,57 @@ updateTimer();
   },500);
  });
 })();
+
+/** Ширина слайда в px: на GitHub Pages / Safari проценты + gap часто дают просвет следующего кадра. */
+function syncDressSliderTrackWidths(){
+ document.querySelectorAll(".scene-dress .slider.image-slider").forEach((slider)=>{
+  const w=Math.max(0,Math.floor(slider.clientWidth));
+  if(!w) return;
+  slider.querySelectorAll(".image-card").forEach((card)=>{
+   card.style.flexBasis=`${w}px`;
+   card.style.flexGrow="0";
+   card.style.flexShrink="0";
+   card.style.width=`${w}px`;
+   card.style.minWidth=`${w}px`;
+   card.style.maxWidth=`${w}px`;
+  });
+ });
+}
+
+function debounce(fn,ms){
+ let t;
+ return (...args)=>{
+  clearTimeout(t);
+  t=setTimeout(()=>fn(...args),ms);
+ };
+}
+
+const debouncedDressSliderSync=debounce(syncDressSliderTrackWidths,120);
+
+function bindDressSliderWidthSync(){
+ syncDressSliderTrackWidths();
+ requestAnimationFrame(syncDressSliderTrackWidths);
+ window.addEventListener("resize",debouncedDressSliderSync,{passive:true});
+ document.fonts?.ready?.then(()=>syncDressSliderTrackWidths());
+ const dress=document.querySelector(".scene-dress");
+ if(dress){
+  const io=new IntersectionObserver(
+   (entries)=>{
+    entries.forEach((e)=>{
+     if(e.isIntersecting) requestAnimationFrame(syncDressSliderTrackWidths);
+    });
+   },
+   {threshold:0.02}
+  );
+  io.observe(dress);
+ }
+}
+
+if(document.readyState==="loading"){
+ document.addEventListener("DOMContentLoaded",bindDressSliderWidthSync);
+}else{
+ bindDressSliderWidthSync();
+}
 
 /** Позиция слайда относительно трека: offsetLeft у карточки часто от .scene, а не от .slider — ломает scrollTo. */
 function sliderDeltaToCard(slider,card){
