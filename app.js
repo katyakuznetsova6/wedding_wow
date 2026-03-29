@@ -1,55 +1,25 @@
 const WELCOME_KEY="wedding_wow_intro_v1";
 
-const lines=[
- "Алексей и Екатерина",
- "С любовью приглашаем вас разделить наш день",
- "25 августа 2026 · 16:00"
-];
-
-const heroPause=2600;
-const heroFade=520;
-
 const prefersReducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function initHeroCinematic(){
- const el=document.getElementById("cinematicText");
- if(!el) return;
+let heroWordsReady=false;
 
- const heroImages=Array.from(document.querySelectorAll(".hero-img"));
- const setHeroImage=(idx)=>{
-  heroImages.forEach((img,i)=>{
-   img.classList.toggle("visible", i===idx);
-  });
- };
-
- let heroIdx=0;
-
- if(prefersReducedMotion){
-  el.style.opacity=1;
-  el.textContent=lines.join(" · ");
-  setHeroImage(0);
+function initHeroWords(){
+ if(heroWordsReady) return;
+ const root=document.querySelector(".hero-content");
+ if(!root){
+  heroWordsReady=true;
   return;
  }
+ /* цельный текст без разбиения — меньше узлов и анимаций */
+ heroWordsReady=true;
+}
 
- el.style.opacity=1;
- el.textContent=lines[heroIdx];
- setHeroImage(heroIdx);
-
- const scheduleNext=()=>{
-  if(heroIdx >= lines.length-1) return;
-  setTimeout(()=>{
-   el.style.opacity=0;
-   setTimeout(()=>{
-    heroIdx++;
-    el.textContent=lines[heroIdx];
-    setHeroImage(heroIdx);
-    el.style.opacity=1;
-    scheduleNext();
-   },heroFade);
-  },heroPause);
- };
-
- scheduleNext();
+function initRevealStagger(){
+ if(prefersReducedMotion) return;
+ document.querySelectorAll(".reveal").forEach((el,i)=>{
+  el.style.setProperty("--reveal-delay",`${i*0.12}s`);
+ });
 }
 
 function syncMusicFab(music,fab){
@@ -65,6 +35,8 @@ function setupMusicFab(){
  const fab=document.getElementById("musicFab");
  if(!music || !fab || musicFabBound) return;
  musicFabBound=true;
+
+ music.volume=0.4;
 
  fab.addEventListener("click",()=>{
   if(music.paused){
@@ -85,7 +57,7 @@ function revealMainUi(){
  if(fab) fab.classList.add("is-visible");
 }
 
-function openInvitation(withMusic){
+function openInvitation(){
  const gate=document.getElementById("welcomeGate");
  if(gate){
   gate.classList.add("is-hidden");
@@ -94,14 +66,32 @@ function openInvitation(withMusic){
  document.body.classList.remove("welcome-active");
  sessionStorage.setItem(WELCOME_KEY,"1");
 
- const music=document.getElementById("music");
- if(withMusic && music){
-  music.play().catch(()=>{});
- }
-
- initHeroCinematic();
+ initHeroWords();
  revealMainUi();
  setupMusicFab();
+
+ const music=document.getElementById("music");
+ const fab=document.getElementById("musicFab");
+ syncMusicFab(music,fab);
+}
+
+/** Вызов play() только из этого обработчика — в том же синхронном стеке, что и клик (Safari / iOS). */
+function startMusicFromUserGesture(){
+ const music=document.getElementById("music");
+ const fab=document.getElementById("musicFab");
+ if(!music) return;
+ music.volume=0.4;
+ const playAttempt=music.play();
+ if(playAttempt!==undefined){
+  playAttempt
+   .then(()=>syncMusicFab(music,fab))
+   .catch(()=>{
+    music.load();
+    music.play().then(()=>syncMusicFab(music,fab)).catch(()=>syncMusicFab(music,fab));
+   });
+ }else{
+  syncMusicFab(music,fab);
+ }
 }
 
 function setupWelcome(){
@@ -109,8 +99,8 @@ function setupWelcome(){
  const openBtn=document.getElementById("welcomeOpen");
  const quietBtn=document.getElementById("welcomeQuiet");
 
- if(!gate || !openBtn || !quietBtn){
-  initHeroCinematic();
+ if(!gate || !openBtn){
+  initHeroWords();
   revealMainUi();
   setupMusicFab();
   return;
@@ -119,7 +109,7 @@ function setupWelcome(){
  if(sessionStorage.getItem(WELCOME_KEY)){
   gate.classList.add("is-hidden");
   gate.setAttribute("aria-hidden","true");
-  initHeroCinematic();
+  initHeroWords();
   revealMainUi();
   setupMusicFab();
   return;
@@ -129,24 +119,24 @@ function setupWelcome(){
  gate.setAttribute("aria-hidden","false");
  openBtn.focus();
 
- openBtn.addEventListener("click",()=>openInvitation(true));
- quietBtn.addEventListener("click",()=>openInvitation(false));
+ openBtn.addEventListener("click",()=>{
+  startMusicFromUserGesture();
+  openInvitation();
+ });
+ if(quietBtn){
+  quietBtn.addEventListener("click",()=>{
+   startMusicFromUserGesture();
+   openInvitation();
+  });
+ }
 }
 
+initRevealStagger();
 setupWelcome();
 
 document.getElementById("scrollHint")?.addEventListener("click",()=>{
  document.querySelector(".scene")?.scrollIntoView({behavior: prefersReducedMotion ? "auto" : "smooth"});
 });
-
-function formatRemaining(ms){
- const safe=Math.max(0,ms);
- const totalMinutes=Math.floor(safe/60000);
- const days=Math.floor(totalMinutes/(60*24));
- const hours=Math.floor((totalMinutes%(60*24))/60);
- const minutes=totalMinutes%60;
- return `${days} дн ${hours} ч ${minutes} мин`;
-}
 
 function updateTimer(){
  const eventDate=new Date("2026-08-25T16:00:00+05:00");
@@ -178,57 +168,18 @@ function updateTimer(){
 setInterval(updateTimer,1000);
 updateTimer();
 
-const obs=new IntersectionObserver((e)=>e.forEach((x)=>x.isIntersecting&&x.target.classList.add("visible")));
-document.querySelectorAll(".scene").forEach((s)=>obs.observe(s));
+(function setupRsvpGoogleForm(){
+ const rsvpForm=document.getElementById("rsvpForm");
+ const statusEl=document.getElementById("status");
+ if(!rsvpForm || !statusEl) return;
 
-const form=document.getElementById("rsvpForm");
-const nameInput=document.getElementById("nameInput");
-const statusEl=document.getElementById("status");
-
-if(form && nameInput && statusEl){
- const savedGuestRaw=localStorage.getItem("guest");
- if(savedGuestRaw){
-  let savedGuest;
-  try{
-   savedGuest=JSON.parse(savedGuestRaw);
-  }catch{
-   savedGuest={name:savedGuestRaw,attendance:"",drinks:[]};
-  }
-  nameInput.value=savedGuest.name || "";
-  if(savedGuest.attendance){
-   const attendanceInput=form.querySelector(`input[name="attendance"][value="${savedGuest.attendance}"]`);
-   if(attendanceInput) attendanceInput.checked=true;
-  }
-  if(Array.isArray(savedGuest.drinks)){
-   form.querySelectorAll('input[name="drink"]').forEach((input)=>{
-    input.checked=savedGuest.drinks.includes(input.value);
-   });
-  }
-  const drinksText=savedGuest.drinks && savedGuest.drinks.length ? savedGuest.drinks.join(", ") : "без предпочтений";
-  const attendanceText=savedGuest.attendance==="yes" ? "придет" : savedGuest.attendance==="no" ? "не придет" : "не выбран";
-  statusEl.textContent=`Снова рады вас видеть, ${savedGuest.name || "гость"}! Ваш ответ сохранен ✔ (вы ${attendanceText}). Напитки: ${drinksText}.`;
- }
-
- form.addEventListener("submit",(e)=>{
-  e.preventDefault();
-  const name=nameInput.value.trim();
-  const attendance=form.querySelector('input[name="attendance"]:checked');
-  const drinks=[...form.querySelectorAll('input[name="drink"]:checked')].map((item)=>item.value);
-  if(!name){
-   statusEl.textContent="Пожалуйста, напишите, как к вам обращаться";
-   return;
-  }
-  if(!attendance){
-   statusEl.textContent="Пожалуйста, выберите ответ: придете или нет";
-   return;
-  }
-  const payload={name,attendance:attendance.value,drinks,timestamp:new Date().toISOString()};
-  localStorage.setItem("guest",JSON.stringify(payload));
-  const drinksText=drinks.length ? drinks.join(", ") : "без предпочтений";
-  const attendanceText=attendance.value==="yes" ? "придет" : "не придет";
-  statusEl.textContent=`Спасибо, ${name}! Ваш ответ сохранен ✔ (вы ${attendanceText}). Напитки: ${drinksText}.`;
+ rsvpForm.addEventListener("submit",()=>{
+  statusEl.textContent="Спасибо! Мы получили ваш ответ 💌";
+  window.setTimeout(()=>{
+   rsvpForm.style.display="none";
+  },500);
  });
-}
+})();
 
 document.querySelectorAll(".slider-btn").forEach((btn)=>{
  btn.addEventListener("click",()=>{
@@ -243,12 +194,63 @@ document.querySelectorAll(".slider-btn").forEach((btn)=>{
  });
 });
 
-const cursor=document.querySelector(".cursor");
-if(cursor && window.matchMedia("(pointer: fine)").matches){
- document.addEventListener("mousemove",(e)=>{
-  cursor.style.left=e.clientX+"px";
-  cursor.style.top=e.clientY+"px";
+const revealBlocks=document.querySelectorAll(".reveal-block");
+const revealObserver=new IntersectionObserver(
+ (entries)=>{
+  entries.forEach((entry)=>{
+   if(entry.isIntersecting){
+    entry.target.classList.add("visible");
+   }
+  });
+ },
+ {threshold:0.15, rootMargin:"0px 0px -5% 0px"}
+);
+
+revealBlocks.forEach((block)=>{
+ revealObserver.observe(block);
+});
+
+const parallaxScenes=document.querySelectorAll(".scene");
+let parallaxScheduled=false;
+
+function updateParallax(){
+ parallaxScheduled=false;
+ if(prefersReducedMotion) return;
+ const scrollY=window.scrollY;
+ const speed=0.12;
+ parallaxScenes.forEach((scene)=>{
+  const rect=scene.getBoundingClientRect();
+  const offset=rect.top+scrollY;
+  const yPos=(scrollY-offset)*speed;
+  scene.style.setProperty("--parallax-offset",`${yPos}px`);
  });
-}else if(cursor){
- cursor.style.display="none";
+}
+
+function requestParallax(){
+ if(prefersReducedMotion) return;
+ if(parallaxScheduled) return;
+ parallaxScheduled=true;
+ requestAnimationFrame(updateParallax);
+}
+
+window.addEventListener("scroll",requestParallax,{passive:true});
+if(!prefersReducedMotion) updateParallax();
+
+const finalScene=document.querySelector(".final");
+
+const finalObserver=new IntersectionObserver(
+ (entries)=>{
+  entries.forEach((entry)=>{
+   if(entry.isIntersecting){
+    document.body.classList.add("final-active");
+   }else{
+    document.body.classList.remove("final-active");
+   }
+  });
+ },
+ {threshold:0.6}
+);
+
+if(finalScene){
+ finalObserver.observe(finalScene);
 }
