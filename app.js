@@ -98,9 +98,10 @@ function startMusicFromUserGesture(){
 function initWelcomePersonalization(){
  const params=new URLSearchParams(window.location.search);
  const name=params.get("name");
+ const nameBlock=document.getElementById("welcomeNameBlock");
  const guestEl=document.getElementById("guestName");
  const textEl=document.getElementById("welcomeText");
- if(!guestEl||!textEl) return;
+ if(!nameBlock||!guestEl||!textEl) return;
 
  let decoded="Дорогие гости";
  if(name!=null&&String(name).trim()!==""){
@@ -116,26 +117,26 @@ function initWelcomePersonalization(){
  guestEl.textContent=decoded;
 
  if(prefersReducedMotion){
-  guestEl.style.opacity="1";
-  guestEl.style.transform="translateY(0)";
-  guestEl.style.filter="none";
+  nameBlock.style.opacity="1";
+  nameBlock.style.transform="translateY(0)";
+  nameBlock.style.filter="none";
   textEl.style.opacity="1";
   textEl.style.transform="translateY(0)";
   return;
  }
 
- guestEl.style.opacity="0";
- guestEl.style.transform="translateY(20px)";
- guestEl.style.filter="blur(6px)";
+ nameBlock.style.opacity="0";
+ nameBlock.style.transform="translateY(20px)";
+ nameBlock.style.filter="blur(6px)";
 
  textEl.style.opacity="0";
  textEl.style.transform="translateY(20px)";
 
  window.setTimeout(()=>{
-  guestEl.style.transition="opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease";
-  guestEl.style.opacity="1";
-  guestEl.style.transform="translateY(0)";
-  guestEl.style.filter="blur(0)";
+  nameBlock.style.transition="opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease";
+  nameBlock.style.opacity="1";
+  nameBlock.style.transform="translateY(0)";
+  nameBlock.style.filter="blur(0)";
  },300);
 
  window.setTimeout(()=>{

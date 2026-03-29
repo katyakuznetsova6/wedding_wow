@@ -959,8 +959,17 @@ body.welcome-active{
  line-height:1.25;
 }
 
+.welcome-name-block{
+ display:inline-block;
+ max-width:100%;
+}
+
 #guestName{
  display:inline-block;
+}
+
+.welcome-after-name{
+ white-space:normal;
 }
 
 .welcome-text{

@@ -24,7 +24,9 @@
   <div class="welcome-card">
     <p class="welcome-kicker" id="welcomeDesc">Приглашение</p>
     <h2 id="welcomeTitle">
-      <span id="guestName"></span>
+      <span id="welcomeNameBlock" class="welcome-name-block">
+        <span id="guestName"></span><span class="welcome-after-name">, мы будем рады видеть вас</span>
+      </span>
     </h2>
     <p class="welcome-text" id="welcomeText">
       мы приготовили для вас особенный вечер
@@ -49,7 +51,8 @@
 </section>
 
 <!-- Музыка: для GitHub Pages положите свой файл в assets/audio/music.mp3 (см. assets/audio/README.md) -->
-<audio id="music" loop playsinline preload="metadata">
+<!-- preload=none: иначе встроенные браузеры (Telegram и др.) часто предлагают «открыть во внешнем браузере» из‑за фоновой загрузки аудио -->
+<audio id="music" loop playsinline preload="none">
   <source src="assets/audio/music.mp3" type="audio/mpeg">
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
