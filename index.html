@@ -44,8 +44,9 @@
   <button type="button" class="scroll-hint" id="scrollHint" aria-label="Прокрутить к следующему блоку">↓</button>
 </section>
 
-<audio id="music" loop playsinline preload="auto">
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8f7c9b5d1.mp3" type="audio/mpeg">
+<!-- Музыка: для GitHub Pages положите свой файл в assets/audio/music.mp3 (см. assets/audio/README.md) -->
+<audio id="music" loop playsinline preload="metadata">
+  <source src="assets/audio/music.mp3" type="audio/mpeg">
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
@@ -105,9 +106,9 @@
   <div class="slider-wrap">
     <button class="slider-btn" type="button" data-target="womenSlider" data-dir="-1" aria-label="Предыдущий женский образ">◀</button>
     <div class="slider image-slider" id="womenSlider">
-      <article class="card image-card"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&amp;fit=crop&amp;w=900&amp;h=1125&amp;q=82" width="900" height="1125" alt="Гость: длинное светлое платье, кремовая гамма" loading="eager" decoding="async"><p>Вечернее платье в кремовых тонах</p></article>
-      <article class="card image-card"><img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&amp;fit=crop&amp;w=900&amp;h=1125&amp;q=82" width="900" height="1125" alt="Гость: нарядный образ, тёплые оттенки" loading="lazy" decoding="async"><p>Тёплый золотисто-бежевый акцент</p></article>
-      <article class="card image-card"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&amp;fit=crop&amp;w=900&amp;h=1125&amp;q=82" width="900" height="1125" alt="Гость: элегантный костюм-платье, нейтральная палитра" loading="lazy" decoding="async"><p>Элегантно и сдержанно</p></article>
+      <article class="card image-card"><img src="assets/images/dress-women-1.png" alt="Вечерний образ: кремовое атласное платье и аксессуары" loading="eager" decoding="async"><p>Кремовый атлас и тёплый свет</p></article>
+      <article class="card image-card"><img src="assets/images/dress-women-2.png" alt="Вечерний образ: платье в оттенке мокко с кружевом" loading="lazy" decoding="async"><p>Мокко, кружево и жемчуг</p></article>
+      <article class="card image-card"><img src="assets/images/dress-women-3.png" alt="Праздничный образ: кремовый костюм и шляпа" loading="lazy" decoding="async"><p>Костюм в нейтральной палитре</p></article>
     </div>
     <button class="slider-btn" type="button" data-target="womenSlider" data-dir="1" aria-label="Следующий женский образ">▶</button>
   </div>
@@ -115,9 +116,9 @@
   <div class="slider-wrap">
     <button class="slider-btn" type="button" data-target="menSlider" data-dir="-1" aria-label="Предыдущий мужской образ">◀</button>
     <div class="slider image-slider" id="menSlider">
-      <article class="card image-card"><img src="https://images.pexels.com/photos/2955372/pexels-photo-2955372.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" width="900" height="1125" alt="Гость в классическом костюме на празднике" loading="eager" decoding="async"><p>Классический костюм — идеально для вечера</p></article>
-      <article class="card image-card"><img src="https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" width="900" height="1125" alt="Гость в нарядном костюме и галстуке" loading="lazy" decoding="async"><p>Костюм с галстуком или бабочкой</p></article>
-      <article class="card image-card"><img src="https://images.pexels.com/photos/1040626/pexels-photo-1040626.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" width="900" height="1125" alt="Гость в элегантном праздничном образе" loading="lazy" decoding="async"><p>Элегантный праздничный стиль</p></article>
+      <article class="card image-card"><img src="assets/images/dress-men-1.png" alt="Праздничный образ: кремовый smart casual, поло и брюки" loading="eager" decoding="async"><p>Кремовый smart casual</p></article>
+      <article class="card image-card"><img src="assets/images/dress-men-2.png" alt="Светлый костюм, белая сорочка без галстука" loading="lazy" decoding="async"><p>Светлый костюм в нашей палитре</p></article>
+      <article class="card image-card"><img src="assets/images/dress-men-3.png" alt="Тройка в тёплом таупе с галстуком" loading="lazy" decoding="async"><p>Тройка: жилет, галстук, платок</p></article>
     </div>
     <button class="slider-btn" type="button" data-target="menSlider" data-dir="1" aria-label="Следующий мужской образ">▶</button>
   </div>

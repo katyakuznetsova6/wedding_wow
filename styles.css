@@ -118,6 +118,16 @@ button,input,textarea{
  background-color:var(--page-bg);
  transform-origin:center center;
  backface-visibility:hidden;
+ animation:heroZoom 10s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom{
+ from{
+  transform:scale(1);
+ }
+ to{
+  transform:scale(1.15);
+ }
 }
 
 .hero-overlay{
@@ -634,6 +644,15 @@ button,input,textarea{
  object-position:center;
 }
 
+/* Дресс-код: портрет 9:16 под вертикальные фото */
+.scene-dress .image-card img{
+ aspect-ratio:9/16;
+ min-height:0;
+ max-height:min(88vh,920px);
+ object-fit:cover;
+ object-position:center;
+}
+
 .image-card p{
  margin:0;
  padding:14px;
@@ -1130,6 +1149,11 @@ body.final-active::after{
   opacity:1;
  }
 
+ .hero-bg{
+  animation:none;
+  transform:none;
+ }
+
  body::before{
   opacity:0;
  }
@@ -1270,9 +1294,10 @@ body.final-active::after{
   scroll-snap-align:center;
  }
 
- .image-card img{
-  max-height:min(56vh,380px);
-  min-height:220px;
+ .scene-dress .image-card img{
+  aspect-ratio:9/16;
+  max-height:min(78vh,720px);
+  min-height:0;
  }
 
  .final h2{
@@ -1340,9 +1365,10 @@ body.final-active::after{
   max-width:calc(100% - 48px);
  }
 
- .image-card img{
-  max-height:min(52vh,340px);
-  min-height:200px;
+ .scene-dress .image-card img{
+  aspect-ratio:9/16;
+  max-height:min(72vh,640px);
+  min-height:0;
  }
 
  .rsvp form{
