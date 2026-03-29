@@ -181,16 +181,39 @@ updateTimer();
  });
 })();
 
+/** Позиция слайда относительно трека: offsetLeft у карточки часто от .scene, а не от .slider — ломает scrollTo. */
+function sliderDeltaToCard(slider,card){
+ return card.getBoundingClientRect().left-slider.getBoundingClientRect().left;
+}
+
+function dressSliderCurrentIndex(slider,cards){
+ let best=0;
+ let bestAbs=Infinity;
+ cards.forEach((card,i)=>{
+  const a=Math.abs(sliderDeltaToCard(slider,card));
+  if(a<bestAbs){
+   bestAbs=a;
+   best=i;
+  }
+ });
+ return best;
+}
+
 document.querySelectorAll(".slider-btn").forEach((btn)=>{
  btn.addEventListener("click",()=>{
   const targetId=btn.getAttribute("data-target");
   const dir=Number(btn.getAttribute("data-dir"));
   const slider=document.getElementById(targetId);
   if(!slider) return;
-  const card=slider.querySelector(".image-card");
-  const cardWidth=card ? card.getBoundingClientRect().width : 280;
-  const gap=parseFloat(getComputedStyle(slider).gap || "0") || 0;
-  slider.scrollBy({left:dir*(cardWidth+gap),behavior:"smooth"});
+  const cards=[...slider.querySelectorAll(".image-card")];
+  if(!cards.length) return;
+  const idx=dressSliderCurrentIndex(slider,cards);
+  const next=Math.max(0,Math.min(cards.length-1,idx+dir));
+  const delta=sliderDeltaToCard(slider,cards[next]);
+  slider.scrollTo({
+   left:slider.scrollLeft+delta,
+   behavior:prefersReducedMotion ? "auto" : "smooth",
+  });
  });
 });
 

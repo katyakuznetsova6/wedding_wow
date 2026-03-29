@@ -289,6 +289,20 @@ button,input,textarea{
 .scene-dress .slider.image-slider{
  flex:1 1 0;
  min-width:0;
+ scroll-padding-inline:0;
+ /* явная ширина трека, иначе % у слайдов на десктопе иногда считаются неверно */
+ width:100%;
+}
+
+/* Один слайд на всю видимую область трека (без «задева» следующего кадра) */
+.scene-dress .slider.image-slider .image-card{
+ flex:0 0 100%;
+ width:100%;
+ min-width:100%;
+ max-width:100%;
+ box-sizing:border-box;
+ scroll-snap-align:start;
+ scroll-snap-stop:always;
 }
 
 .reveal-block{
@@ -1068,12 +1082,22 @@ body.welcome-active{
 /* Final */
 .final{
  min-height:100vh;
+ min-height:100dvh;
  display:flex;
  align-items:center;
  justify-content:center;
  text-align:center;
  position:relative;
  overflow:hidden;
+}
+
+/* Финал: полноэкранная высота и отступы под вырезы (на мобильном .scene даёт min-height:auto) */
+.scene.final{
+ min-height:100vh;
+ min-height:100dvh;
+ margin-inline:clamp(8px,2vw,16px);
+ padding-block:max(28px, env(safe-area-inset-top, 0px) + 12px) max(32px, env(safe-area-inset-bottom, 0px) + 20px);
+ padding-inline:max(16px, env(safe-area-inset-left, 0px) + 8px) max(16px, env(safe-area-inset-right, 0px) + 8px);
 }
 
 .final-inner{
@@ -1207,11 +1231,18 @@ body.final-active::after{
 }
 
 @media (max-width:768px){
+ /* На фото в альбомной ориентации контент не сжимаем в узкую полоску */
+ .scene:not(.full-img):not(.final){
+  min-height:min(58dvh,560px);
+  justify-content:center;
+  padding-block:28px;
+  padding-inline:18px;
+ }
+
  .scene{
   margin:24px 10px;
   padding:22px 14px;
   border-radius:18px;
-  min-height:auto;
  }
 
  .scene h2{
@@ -1223,8 +1254,42 @@ body.final-active::after{
  }
 
  .sub{
-  font-size:14px;
-  max-width:36ch;
+  font-size:15px;
+  line-height:1.75;
+  max-width:min(38ch,94vw);
+ }
+
+ .scene-countdown{
+  min-height:min(62dvh,600px);
+ }
+
+ .scene-countdown #timer{
+  margin-top:18px;
+ }
+
+ .scene-countdown .timer-units{
+  gap:clamp(12px,4vw,22px);
+  padding:18px 16px;
+  margin-inline:auto;
+  max-width:100%;
+  box-sizing:border-box;
+  background:rgba(12,14,18,.42);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:18px;
+  box-shadow:0 12px 40px rgba(0,0,0,.25);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+ }
+
+ .t-num{
+  font-size:clamp(34px,8.5vw,42px);
+  letter-spacing:.06em;
+ }
+
+ .t-label{
+  font-size:11px;
+  letter-spacing:.14em;
+  margin-top:6px;
  }
 
  .hero{
@@ -1281,23 +1346,29 @@ body.final-active::after{
   flex-shrink:0;
  }
 
- .scene-dress .image-card{
-  flex:0 0 calc(100% - 52px);
-  max-width:calc(100% - 52px);
-  min-width:0;
-  scroll-snap-align:center;
- }
-
  .image-card{
   flex:0 0 88%;
   max-width:88%;
   scroll-snap-align:center;
  }
 
+ .scene-dress .slider.image-slider .image-card{
+  flex:0 0 100%;
+  width:100%;
+  min-width:100%;
+  max-width:100%;
+  scroll-snap-align:start;
+ }
+
  .scene-dress .image-card img{
   aspect-ratio:9/16;
   max-height:min(78vh,720px);
   min-height:0;
+ }
+
+ .scene.final{
+  margin-inline:8px;
+  padding-block:max(24px, env(safe-area-inset-top, 0px) + 8px) max(28px, env(safe-area-inset-bottom, 0px) + 16px);
  }
 
  .final h2{
@@ -1332,10 +1403,6 @@ body.final-active::after{
   font-size:12px;
  }
 
- .t-num{
-  font-size:30px;
- }
-
  .rsvp form{
   padding:18px 14px;
  }
@@ -1347,9 +1414,24 @@ body.final-active::after{
 }
 
 @media (max-width:420px){
+ .scene:not(.full-img):not(.final){
+  min-height:min(54dvh,520px);
+  padding-block:26px;
+  padding-inline:16px;
+ }
+
+ .scene-countdown{
+  min-height:min(58dvh,560px);
+ }
+
  .scene{
   margin:18px 8px;
   padding:18px 12px;
+ }
+
+ .scene.final{
+  margin:16px 8px;
+  min-height:100dvh;
  }
 
  .hero h1{
@@ -1360,9 +1442,11 @@ body.final-active::after{
   font-size:20px;
  }
 
- .scene-dress .image-card{
-  flex:0 0 calc(100% - 48px);
-  max-width:calc(100% - 48px);
+ .scene-dress .slider.image-slider .image-card{
+  flex:0 0 100%;
+  width:100%;
+  min-width:100%;
+  max-width:100%;
  }
 
  .scene-dress .image-card img{
@@ -1382,5 +1466,26 @@ body.final-active::after{
  .story-card{
   width:86px;
   height:150px;
+ }
+}
+
+/* Телефон в альбомной ориентации: ниже экран, не раздуваем блоки сверх меры */
+@media (max-width:896px) and (orientation:landscape) and (max-height:500px){
+ .scene:not(.full-img):not(.final){
+  min-height:min(82dvh,400px);
+  padding-block:16px 20px;
+ }
+
+ .scene-countdown{
+  min-height:min(85dvh,420px);
+ }
+
+ .scene-countdown .timer-units{
+  padding:14px 12px;
+  gap:clamp(8px,2.5vw,16px);
+ }
+
+ .t-num{
+  font-size:clamp(28px,7vw,38px);
  }
 }
