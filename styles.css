@@ -1321,16 +1321,15 @@ body.final-active::after{
 
  .scene-countdown .timer-units{
   gap:clamp(12px,4vw,22px);
-  padding:18px 16px;
+  padding:0;
   margin-inline:auto;
   max-width:100%;
   box-sizing:border-box;
-  background:rgba(12,14,18,.42);
-  border:1px solid rgba(255,255,255,.22);
-  border-radius:18px;
-  box-shadow:0 12px 40px rgba(0,0,0,.25);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
  }
 
  .t-num{
@@ -1395,13 +1394,12 @@ body.final-active::after{
   line-height:1.42;
   max-width:min(30ch,90vw);
   margin-inline:auto;
-  padding:18px 22px;
-  background:rgba(10,12,16,.38);
-  border:1px solid rgba(255,255,255,.22);
-  border-radius:18px;
-  box-shadow:0 12px 40px rgba(0,0,0,.28);
-  backdrop-filter:blur(11px);
-  -webkit-backdrop-filter:blur(11px);
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
  }
 
  .scene-dress{
