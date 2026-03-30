@@ -152,11 +152,11 @@ button,input,textarea{
 
 .hero h1{
  margin:0;
- font-family:Playfair Display, Georgia, serif;
- font-size:clamp(32px, 6vw, 56px);
- line-height:1.15;
- font-weight:600;
- letter-spacing:.03em;
+ font-family:'Great Vibes', cursive;
+ font-size:52px;
+ line-height:1.2;
+ font-weight:400;
+ letter-spacing:0;
  color:var(--scene-text);
  text-shadow:var(--scene-text-shadow);
 }
@@ -266,8 +266,8 @@ button,input,textarea{
  text-align:center;
  gap:0;
  padding:clamp(40px,6vw,56px) clamp(22px,4vw,36px);
- margin:clamp(12px,3vw,28px) clamp(10px,3vw,24px);
- border-radius:20px;
+ margin:0;
+ border-radius:0;
  background:transparent;
  border:none;
  box-shadow:none;
@@ -310,8 +310,8 @@ button,input,textarea{
 }
 
 .reveal-block{
- opacity:0;
- transition:opacity .5s ease;
+ opacity:1;
+ transition:none;
 }
 
 .reveal-block.visible{
@@ -959,8 +959,9 @@ body.welcome-active{
 }
 
 #welcomeTitle{
- font-size:32px;
- letter-spacing:1px;
+ font-family:'Great Vibes', cursive;
+ font-size:36px;
+ letter-spacing:0;
  line-height:1.35;
  color:#111;
  overflow:visible;
@@ -1105,9 +1106,8 @@ body.welcome-active{
 
 /* Reveal (финал — лёгкое появление без лишнего движения) */
 .reveal{
- opacity:0;
- animation:revealFade .7s ease forwards;
- animation-delay:var(--reveal-delay,0s);
+ opacity:1;
+ animation:none;
 }
 
 @keyframes revealFade{
@@ -1132,7 +1132,7 @@ body.welcome-active{
 .scene.final{
  min-height:100vh;
  min-height:100dvh;
- margin-inline:clamp(8px,2vw,16px);
+ margin-inline:0;
  padding-block:max(28px, env(safe-area-inset-top, 0px) + 12px) max(32px, env(safe-area-inset-bottom, 0px) + 20px);
  padding-inline:max(16px, env(safe-area-inset-left, 0px) + 8px) max(16px, env(safe-area-inset-right, 0px) + 8px);
 }
@@ -1292,9 +1292,9 @@ body.final-active::after{
  }
 
  .scene{
-  margin:24px 10px;
+  margin:0;
   padding:22px 14px;
-  border-radius:18px;
+  border-radius:0;
  }
 
  .scene h2{
@@ -1353,7 +1353,7 @@ body.final-active::after{
  }
 
  .hero h1{
-  font-size:clamp(28px,7vw,34px);
+  font-size:36px;
  }
 
  .hero-sub{
@@ -1454,7 +1454,7 @@ body.final-active::after{
  }
 
  .scene.final{
-  margin-inline:8px;
+  margin-inline:0;
   padding-block:max(24px, env(safe-area-inset-top, 0px) + 8px) max(28px, env(safe-area-inset-bottom, 0px) + 16px);
  }
 
@@ -1520,17 +1520,17 @@ body.final-active::after{
  }
 
  .scene{
-  margin:18px 8px;
+  margin:0;
   padding:18px 12px;
  }
 
  .scene.final{
-  margin:16px 8px;
+  margin:0;
   min-height:100dvh;
  }
 
  .hero h1{
-  font-size:30px;
+  font-size:36px;
  }
 
  .scene.full-img{
